@@ -5,4 +5,5 @@ mensaje informando del resultado de la jugada. Si la
 jugada es un fallo, la aplicación informará al jugador de si su apuesta es superior 
 o inferior al número secreto. El juego acaba cuando el jugador acierta el número o 
 llega al máximo de intentos.
+El juego permite al jugador revisar los números con los que ya ha jugado en cualquier momento del juego.
 Al final del juego se invitará al jugador a iniciar un nuevo juego.

@@ -52,7 +52,7 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
                         <input id="apuesta" type="number" name="apuesta" min="<?= LIM_INF ?>" 
                                max="<?= LIM_SUP ?>" value="<?= ($apuesta) ?? ''; ?>" <?= !empty($fin) ? 'readonly' : '' ?> />
                         <span class="error <?= (isset($apuestaErr) && $apuestaErr) ? 'error-visible' : '' ?>">
-                            <?= constant("ERROR_APUESTA") ?>
+                            <?= ERROR_APUESTA ?>
                         </span>
                     </div>
                     <?php if (isset($fin) && $fin): ?> <!-- Si no se ha acabado la partida incluyo la pista para el jugador -->

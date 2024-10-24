@@ -15,6 +15,7 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
     if (!$apuestaErr) {
         $numeros[] = $apuesta;
         $numIntentos++;
+        $_SESSION['apuesta'] = $apuesta;
         $_SESSION['num_intentos'] = $numIntentos;
         $_SESSION['numeros'] = $numeros;
         $fin = $numIntentos >= MAX_INTENTOS || $apuesta === $numOculto; // Establezco si se ha acabado la partida o no
@@ -26,6 +27,7 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
     $numIntentos = $_SESSION['num_intentos'];
     $numeros = $_SESSION['numeros'];
     $fin = $_SESSION['fin'];
+    $apuesta = $_SESSION['apuesta'];
 } else { // Si se arranca el juego o se solicita una nueva partida
     $_SESSION['num_intentos'] = $numIntentos = 0;
     $_SESSION['num_oculto'] = $numOculto = mt_rand(LIM_INF, LIM_SUP); // Genero un valor aleatorio
@@ -61,13 +63,11 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
                             <input class="submit" type="submit" 
                                    value="Nuevo Juego" name="nuevo_juego" /> 
                         </div>
-                        <?php if (!isset($petNumerosJugados)): ?>
-                            <p class="info-seccion"><?=
-                                ($apuesta === $numOculto) ?
-                                        "Enhorabuena!!! El número era el $numOculto. Lo has acertado en $numIntentos " . (($numIntentos !== 1) ?
-                                                "intentos" : "intento") : "Lo sentimos!!. El número era $numOculto"
-                                ?></p> 
-                        <?php endif ?>
+                        <p class="info-seccion"><?=
+                            ($apuesta === $numOculto) ?
+                                    "Enhorabuena!!! El número era el $numOculto. Lo has acertado en $numIntentos " . (($numIntentos !== 1) ?
+                                            "intentos" : "intento") : "Lo sentimos!!. El número era $numOculto"
+                            ?></p> 
                     <?php else: ?>
                         <div class="submit-seccion">
                             <!-- Si es el inicio del juego o no se ha acabado el juego añado un botón para enviar apuesta -->

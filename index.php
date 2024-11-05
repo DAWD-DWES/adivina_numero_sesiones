@@ -12,14 +12,14 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
     $numIntentos = $_SESSION['num_intentos'];
     $apuestaErr = empty($apuesta);
     if (!$apuestaErr) {
-        $numIntentos++;
-        $_SESSION['num_intentos'] = $numIntentos;
+        $_SESSION['num_intentos'] = ++$numIntentos;
         $numeros = $_SESSION['numeros'];
         $numeros[] = $apuesta;
         $_SESSION['numeros'] = $numeros;
-        $_SESSION['apuesta'] = $apuesta;
         $fin = $numIntentos >= MAX_INTENTOS || $apuesta === $numOculto; // Establezco si se ha acabado la partida o no
         $_SESSION['fin'] = $fin;
+        $apuesta = $fin ? '' : $apuesta;
+        $_SESSION['apuesta'] = $apuesta;
     }
 } elseif (filter_has_var(INPUT_POST, 'numeros_jugados')) {
     $petNumerosJugados = true;

@@ -8,31 +8,27 @@ define('ERROR_APUESTA', 'Introduce una apuesta');
 
 if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
     $apuesta = filter_input(INPUT_POST, 'apuesta', FILTER_VALIDATE_INT);
-    $numOculto = $_SESSION['num_oculto'];
-    $numIntentos = $_SESSION['num_intentos'];
+    $_SESSION['apuesta'] = $apuesta;
     $apuestaErr = empty($apuesta);
     if (!$apuestaErr) {
+        $numOculto = $_SESSION['num_oculto'];
+        $numIntentos = $_SESSION['num_intentos'];
         $_SESSION['num_intentos'] = ++$numIntentos;
         $numeros = $_SESSION['numeros'];
         $numeros[] = $apuesta;
         $_SESSION['numeros'] = $numeros;
         $fin = $numIntentos >= MAX_INTENTOS || $apuesta === $numOculto; // Establezco si se ha acabado la partida o no
         $_SESSION['fin'] = $fin;
-        $apuesta = $fin ? '' : $apuesta;
-        $_SESSION['apuesta'] = $apuesta;
     }
 } elseif (filter_has_var(INPUT_POST, 'numeros_jugados')) {
     $petNumerosJugados = true;
-    $numOculto = $_SESSION['num_oculto'];
-    $numIntentos = $_SESSION['num_intentos'];
     $numeros = $_SESSION['numeros'];
-    $fin = $_SESSION['fin'];
+    $fin = $_SESSION['fin'] ?? false;
     $apuesta = $_SESSION['apuesta'] ?? '';
 } else { // Si se arranca el juego o se solicita una nueva partida
     $_SESSION['num_intentos'] = $numIntentos = 0;
     $_SESSION['num_oculto'] = $numOculto = mt_rand(LIM_INF, LIM_SUP); // Genero un valor aleatorio
     $_SESSION['numeros'] = []; // Array de números jugados
-    $_SESSION['fin'] = false;
 }
 ?>
 
@@ -54,7 +50,7 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
                         <label for="apuesta"><?= 'Enter a numero (' . LIM_INF . '-' . LIM_SUP . '):' ?></label> 
                         <input id="apuesta" type="number" name="apuesta" min="<?= LIM_INF ?>" 
                                max="<?= LIM_SUP ?>" value="<?= ($apuesta) ?? ''; ?>" <?= !empty($fin) ? 'readonly' : '' ?> />
-                        <span class="error <?= (isset($apuestaErr) && $apuestaErr) ? 'error-visible' : '' ?>">
+                        <span class="error <?= ($apuestaErr ?? false) ? 'error-visible' : '' ?>">
                             <?= ERROR_APUESTA ?>
                         </span>
                     </div>
@@ -80,8 +76,8 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
                         </div>
                         <div class="info-seccion">
                             <!-- Muestro los intentos restantes -->
-                            <p>Intentos restantes: <?= MAX_INTENTOS - $numIntentos ?></p>
                             <?php if (!empty($apuesta) && !isset($petNumerosJugados)): ?> <!-- Si apuesta no está vacío y no se solicitan los números jugados muestro una pista -->  
+                                <p>Intentos restantes: <?= MAX_INTENTOS - $numIntentos ?></p>    
                                 <p><?= ($apuesta <=> $numOculto) > 0 ? 'Inténtalo con un número mas bajo' : 'Inténtalo con un número mas alto' ?></p>
                             <?php endif ?>
                         </div>

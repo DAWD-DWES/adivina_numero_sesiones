@@ -15,7 +15,7 @@ body {
     margin-right: 20px;
     font-size: 1em;
     padding: 20px;
-    min-width: 600px;
+    min-width: 650px;
     flex-flow: column nowrap;
     border: 5px solid orange
 }

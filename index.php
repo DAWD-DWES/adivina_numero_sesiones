@@ -30,6 +30,8 @@ if (filter_has_var(INPUT_POST, 'envio_apuesta')) {
     $_SESSION['num_intentos'] = $numIntentos = 0;
     $_SESSION['num_oculto'] = $numOculto = mt_rand(LIM_INF, LIM_SUP); // Genero un valor aleatorio
     $_SESSION['numeros'] = []; // Array de números jugados
+    $_SESSION['fin'] = false;
+    $_SESSION['apuesta'] = '';
 }
 ?>
 
